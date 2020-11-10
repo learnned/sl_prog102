@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org" lang="en">
+<head th:replace="index::head"></head>
+<body>
+<header><nav th:replace="index :: nav" replace="index :: nav"></nav></header>
+<!--formularios-->
+<div class="section container">
+    <div class="row card-panel z-depth-5">
+        <form action="" id="form-MT" method="post" th:action="@{/extractMetadata}" enctype="multipart/form-data">
+            <div class="file-field input-field col s12 m6">
+                    <div class="btn teal accent-3">
+                        <i class="material-icons right">folder_open</i>
+                        <span> File</span>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input type="file" id="file" name="file" onchange="calculate()"/>
+                        <input class="file-path" type="text" disabled>
+                    </div>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input type="text" id="md5" name="md5" class="validate" placeholder="" readonly>
+                    <label for="md5">MD5:</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select name="exportFormat" id="format" class="browser-default">
+                        <option value="" disabled selected>Select format to export</option>
+                        <option value="t">txt</option>
+                        <option value="T">csv</option>
+                        <option value="h">html</option>
+                        <option value="j">json</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input type="text" id="fileName" name="fileName" class="validate" required>
+                    <label for="fileName">Name:</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select name="detail" id="detail" class="browser-default">
+                        <option value="" disabled selected>Select a detail</option>
+                        <option value="d">default</option>
+                        <option value="v">verboso</option>
+                        <option value="common">common</option>
+                    </select>
+                </div>
+                <div class="">
+                    <div class="input-field col s6 m2 right mt30">
+                        <button class="btn" type="submit">
+                            <i class="material-icons right">track_changes</i>Apply
+                        </button>
+                    </div>
+                </div>
+        </form>
+        <div class="input-field col s6 m2 right mt30">
+            <form method="get" th:action="@{/download/}">
+                <input type="text" name="path" id="path" value="" style="display:none">
+                <input type="text" name="filenameDownload" id="filenameDownload" value="" style="display:none">
+                <button type="submit" id="submited" class="btn waves-effect waves-light" disabled>
+                    <i class="material-icons right">file_download</i>
+                    Download File</button>
+            </form>
+        </div>
+    </div>
+</div>
+<main th:replace = "index :: main"></main>
+<footer th:replace = "index :: footer"></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.js"></script>
+<script th:src="@{/js/metadata/metadata.js}"></script>
+<script th:src="@{/js/metadata/metadataValidation.js}"></script>
+</body>
+</html>

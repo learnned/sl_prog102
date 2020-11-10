@@ -1,0 +1,75 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id 'checkstyle'
+	id 'jacoco'
+	id 'application'
+}
+group = 'org.fundacionjala'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.session:spring-session-core'
+	implementation 'org.jetbrains:annotations:19.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation('io.jsonwebtoken:jjwt:0.9.1')
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	compile 'com.itextpdf:itext7-core:7.0.2'
+	compile group: "org.apache.poi", name: "poi", version: "3.9"
+	compile group: 'fr.opensagres.xdocreport', name: 'org.apache.poi.xwpf.converter.pdf', version: '1.0.6'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation 'junit:junit:4.12'
+	testImplementation 'org.mockito:mockito-core:2.7.22'
+	implementation("commons-io:commons-io:2.6")
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+}
+
+checkstyle {
+	toolVersion '8.34'
+	configFile file('config/checkstyle/checkstyle.xml')
+	checkstyleMain.source = "src/main/"
+	checkstyleMain.excludes = ["**/src/test/**"]
+}
+
+checkstyleMain {
+	source ='src/main/java'
+}
+
+checkstyleTest {
+	source ='src/main/java'
+}
+
+check.dependsOn jacocoTestReport
+test.finalizedBy("checkstyleMain")
+test.finalizedBy("jacocoTestReport")

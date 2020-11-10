@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org" lang="en">
+<head th:replace="index::head"></head>
+<body>
+<header><nav th:replace="index :: nav" replace="index :: nav"></nav></header>
+<!--formularios-->
+<div class="section container">
+    <div class="row card-panel z-depth-5">
+        <form action=""  id="form-audio" method="post" th:action="@{/convertAudio}" enctype="multipart/form-data">
+               <div class="file-field input-field col s12 m6">
+                    <div class="btn teal accent-3">
+                        <i class="material-icons right">folder_open</i>
+                        <span> File</span>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input type="file" id="file" name="file" onchange="calculateAudioDuration();"/>
+                        <input id="file-path" class="file-path" type="text" disabled>
+                    </div>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input type="text" id="md5" name="md5" class="validate" placeholder="" readonly>
+                    <label for="md5">MD5:</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="exportFormat" name="exportFormat" class="browser-default">
+                        <option value="" disabled selected>Select format of extension</option>
+                        <option value=".wav">WAV</option>
+                        <option value=".mp3">MP3</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input type="text" id="name" name="name" class="validate" required>
+                    <label for="name">Name:</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="channel" name="channel" class="browser-default">
+                        <option value="" disabled selected>Select a channel</option>
+                        <option value="1">mono</option>
+                        <option value="2">stereo</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="codec" name="codec" class="browser-default">
+                        <option value="" disabled selected>Select the codec</option>
+                        <option value="libmp3lame">libmp3lame</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="bitRate" name="bitRate" class="browser-default">
+                        <option value="" disabled selected>Select the bitRate</option>
+                        <option value="32k">32k</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="sampleRate" name="sampleRate" class="browser-default">
+                        <option value="" disabled selected>Select the sampleRate</option>
+                        <option value="22050">22050</option>
+                    </select>
+                </div>
+                <div class="input-field col s12">
+                    <label for="extractMetadata">
+                        <input id="extractMetadata" name="extractMetadata" type="checkbox" />
+                        <span>Metadata</span>
+                    </label>
+                </div>
+                <div class="input-field col s12 m3">
+                    <label for="cut">
+                        <input id="cut" name="cut"  type="checkbox" />
+                        <span>Cut</span>
+                    </label>
+                </div>
+                <div class="input-field col s12 m3">
+                    <input type="text" id="secondsToOutput" name="secondsToOutput" class="validate" placeholder="" readonly>
+                    <label for="secondsToOutput">Input-file total duration:</label>
+                </div>
+                <div class="input-field col s12 m3" style="display:none">
+                    <input type="text" id="start" min="0" name="start" placeholder="hh:mm:ss" class="validate">
+                    <label for="start">start:</label>
+                </div>
+                <div class="input-field col s12 m3" style="display:none">
+                    <input type="number" id="duration" name="duration" min="1" step="1" placeholder="" class="validate">
+                    <label for="duration">duration of cut audio (seconds):</label>
+                </div>
+                <div class="input-field col s6 m2 right mt30">
+                    <button class="btn" type="submit">
+                        <i class="material-icons right">track_changes</i>Apply
+                    </button>
+                </div>
+        </form>
+        <div class="input-field col s6 m2 right mt30">
+            <form method="get" th:action="@{/download/}">
+                <input type="text" name="path" id="path" value="" style="display:none">
+                <button type="submit" id="submited" class="btn waves-effect waves-light" disabled>
+                    <input type="text" name="filenameDownload" id="filenameDownload" value="" style="display:none">
+                    <i class="material-icons right">file_download</i>
+                    Download File</button>
+            </form>
+        </div>
+    </div>
+</div>
+<main th:replace = "index :: main"></main>
+<footer th:replace = "index :: footer"></footer>
+<script src="https://kit.fontawesome.com/35db202371.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script th:src="@{/js/audio/audio.js}"></script>
+<script th:src="@{/js/duration/duration.js}"></script>
+</body>
+</html>
