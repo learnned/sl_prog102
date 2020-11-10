@@ -1,0 +1,29 @@
+image: openjdk:11
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - gradle
+        script: # Modify the commands below to build your repository.
+          # You must commit the Gradle wrapper to your repository
+          # https://docs.gradle.org/current/userguide/gradle_wrapper.html
+          - bash ./gradlew clean assemble
+        artifacts:
+          - build/libs/*.jar
+    - step:
+        caches:
+          - gradle
+        script:
+          - bash ./gradlew test
+        artifacts:
+          - build/reports/tests/test/index.html
+          - build/reports/checkstyle/main.html
+          - build/reports/jacoco/test/html/index.html
+          - bash ./gradlew jacocoTestReport
+    - step:
+        caches:
+          - gradle
+        script:
+          - bash ./gradlew checkstyleTest
+
